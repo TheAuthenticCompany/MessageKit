@@ -31,11 +31,20 @@ open class MessageContentCell: MessageCollectionViewCell {
     open var avatarView = AvatarView()
 
     /// The container used for styling and holding the message's content view.
-    open var messageContainerView: MessageContainerView = {
+    open lazy var messageContainerView: MessageContainerView = {
         let containerView = MessageContainerView()
         containerView.clipsToBounds = true
         containerView.layer.masksToBounds = true
+        
         return containerView
+    }()
+    
+    /// The ribbon view on the left side of the message's content view.
+    open lazy var messageContainerRibbon: UIView = {
+        var view = UIView(frame: .zero)
+        view.backgroundColor = .clear
+        
+        return view
     }()
 
     /// The top label of the cell.
@@ -94,6 +103,14 @@ open class MessageContentCell: MessageCollectionViewCell {
         contentView.addSubview(cellBottomLabel)
         contentView.addSubview(messageContainerView)
         contentView.addSubview(avatarView)
+        
+        contentView.addSubview(messageContainerRibbon)
+        messageContainerRibbon.translatesAutoresizingMaskIntoConstraints = false
+        messageContainerRibbon.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 9.0).isActive = true
+        messageContainerRibbon.trailingAnchor.constraint(greaterThanOrEqualTo: messageContainerView.leadingAnchor, constant: -9.0).isActive = true
+        messageContainerRibbon.widthAnchor.constraint(equalToConstant: 2.0).isActive = true
+        messageContainerRibbon.topAnchor.constraint(equalTo: topAnchor, constant: -8.0).isActive = true
+        messageContainerRibbon.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 8.0).isActive = true
     }
 
     open override func prepareForReuse() {
@@ -254,13 +271,15 @@ open class MessageContentCell: MessageCollectionViewCell {
         let avatarPadding = attributes.avatarLeadingTrailingPadding
         switch attributes.avatarPosition.horizontal {
         case .cellLeading:
-            origin.x = attributes.avatarSize.width + attributes.messageContainerPadding.left + avatarPadding
+            messageContainerRibbon.backgroundColor = #colorLiteral(red: 0.805398643, green: 0.7544907331, blue: 0.6208853126, alpha: 1)
+        origin.x = attributes.avatarSize.width + attributes.messageContainerPadding.left + avatarPadding
         case .cellTrailing:
-            origin.x = attributes.frame.width - attributes.avatarSize.width - attributes.messageContainerSize.width - attributes.messageContainerPadding.right - avatarPadding
+            messageContainerRibbon.backgroundColor = #colorLiteral(red: 0.8588235294, green: 0.05882352941, blue: 0.3843137255, alpha: 1)
+            origin.x = attributes.avatarSize.width + attributes.messageContainerPadding.right + avatarPadding
         case .natural:
             fatalError(MessageKitError.avatarPositionUnresolved)
         }
-
+        
         messageContainerView.frame = CGRect(origin: origin, size: attributes.messageContainerSize)
     }
 
