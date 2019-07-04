@@ -109,8 +109,8 @@ open class MessageContentCell: MessageCollectionViewCell {
         messageContainerRibbon.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 9.0).isActive = true
         messageContainerRibbon.trailingAnchor.constraint(greaterThanOrEqualTo: messageContainerView.leadingAnchor, constant: -9.0).isActive = true
         messageContainerRibbon.widthAnchor.constraint(equalToConstant: 2.0).isActive = true
-        messageContainerRibbon.topAnchor.constraint(equalTo: topAnchor, constant: -8.0).isActive = true
-        messageContainerRibbon.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 8.0).isActive = true
+        messageContainerRibbon.topAnchor.constraint(equalTo: topAnchor, constant: -5).isActive = true
+        messageContainerRibbon.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 5).isActive = true
     }
 
     open override func prepareForReuse() {
